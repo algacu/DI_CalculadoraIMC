@@ -13,6 +13,7 @@ class App extends Component {
         <View>
           <Datos/>
         </View>
+        <Text style={styles.pie}>Alejandro García Cuesta - Desarrollo de Interfaces (2º DAM)</Text>
       </View>
     )
   }
@@ -29,6 +30,12 @@ const styles = StyleSheet.create({
     marginTop: 40,
     textAlign: 'center',
     fontSize: 30,
+  },
+  pie: {
+    color: 'white',
+    fontStyle: 'italic',
+    fontSize: 10,
+    margin: 10,
   }
 
 });

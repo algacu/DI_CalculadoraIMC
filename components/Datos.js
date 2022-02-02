@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Button, TextInput, Title, Text } from 'react-native-paper'
+import { calcular, clasificar, validarAltura, validarPeso } from '../utils/Utils'
 
 export class Datos extends Component {
 
@@ -9,6 +10,7 @@ export class Datos extends Component {
         this.state = {
             peso: '',
             altura: '',
+            resultadoNum: '',
             resultado: '',
             color: 'red',
         }
@@ -26,74 +28,31 @@ export class Datos extends Component {
         this.setState({ resultado: unResultado})
     }
 
+    actualizaResultadoNum = (unResultado) => {
+        this.setState({ resultadoNum: unResultado})
+    }
+
     actualizaColor = (unColor) => {
         this.setState({ color: unColor })
     }
 
-    calcular = () => {
+    procesar = () => {
 
+        let peso = this.state.peso;
         let altura = this.state.altura;
-        let num1 = 0;
-        let num2 = 0;
 
-        if (!altura.includes('.')) {
-            if (altura.includes(',')){
-                let num1 = altura.replace(',','.')
-                altura = num1;
-            } else {
-                num1 = altura.slice(0, 1);
-                num2 = altura.slice(1,);
-                altura = num1 + '.' + num2;
-            }
-        }
+        let alturaFormateada = validarAltura(altura);
+        let pesoFormateado = validarPeso(peso);
 
-        let pesoNum = parseFloat(this.state.peso)
-        let alturaNum = parseFloat(altura)
+        let resultadoNum = calcular(pesoFormateado, alturaFormateada);
 
-        let resultado = pesoNum / Math.pow(alturaNum,2);
+        let resultadoClasificado = clasificar(resultadoNum);
 
-        this.clasificar(resultado);
-    }
+        let resultadoClasificadoArray = resultadoClasificado.split('-');
 
-    clasificar = (unResultado) => {
-        switch (true) {
-            case (unResultado < 18.5):
-                this.actualizaResultado('Peso insuficiente');
-                this.actualizaColor('green');
-                break;
-            case (unResultado >= 18.5 && unResultado <= 24.9):
-                this.actualizaResultado('Normopeso')
-                this.actualizaColor('green');
-                break;
-            case (unResultado >= 25 && unResultado <= 26.9):
-                this.actualizaResultado('Sobrepeso grado I')
-                this.actualizaColor('green');
-                break;
-            case (unResultado >= 27 && unResultado <= 29.9):
-                this.actualizaResultado('Sobrepeso grado II (preobesidad)')
-                this.actualizaColor('orange');
-                break;
-            case (unResultado >= 30 && unResultado <= 34.9):
-                this.actualizaResultado('Obesidad de tipo I')
-                this.actualizaColor('orange');
-                break;
-            case (unResultado >= 35 && unResultado <= 39.9):
-                this.actualizaResultado('Obesidad de tipo II')
-                this.actualizaColor('orange');
-                break;
-            case (unResultado >= 40 && unResultado <= 49.9):
-                this.actualizaResultado('Obesidad de tipo III (mórbida)')
-                this.actualizaColor('red');
-                break;
-            case (unResultado >= 50):
-                this.actualizaResultado('Obesidad de tipo IV (extrema)')
-                this.actualizaColor('red');
-                break;
-            default:
-                this.actualizaResultado('Error')
-                break;
-        }
-
+        this.actualizaResultadoNum(resultadoNum.toFixed(2));
+        this.actualizaResultado(resultadoClasificadoArray[0]);
+        this.actualizaColor(resultadoClasificadoArray[1]);
     }
 
     render() {
@@ -120,11 +79,11 @@ export class Datos extends Component {
                     icon="calculator-variant"
                     mode="contained"
                     color='#2b2d42'
-                    onPress={this.calcular}>
-                    Calcular IMG
+                    onPress={this.procesar}>
+                    Calcular IMC
                 </Button>
                 <Text style={styles.subtitulo}>Resultado:</Text>
-                <Text style={{color:this.state.color}}>{this.state.resultado}</Text>
+                <Text style={{color:this.state.color}}>{this.state.resultadoNum + '  ' + this.state.resultado}</Text>
             </View>
         )
     }
@@ -158,6 +117,5 @@ const styles = StyleSheet.create({
         marginRight: 30,
         marginBottom: 20,
     }
-
 
 });
