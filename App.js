@@ -1,8 +1,6 @@
-
-
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Button, TextInput, Title, Text} from 'react-native-paper'
+import {Title, Text} from 'react-native-paper'
 import {Datos} from './components/Datos'
 
 class App extends Component {

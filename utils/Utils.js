@@ -1,3 +1,8 @@
+/*En esta carpeta encontramos varias funciones que son llamadas desde el componente "Datos" y que también 
+servirían para otros componentes en caso de que se amplie la aplicación en un futuro (calcular el IMC con otras medidas
+y clasificar dichos resultados, etc.)*/
+
+
 export const calcular = (peso, altura) => {
     let pesoNum = parseFloat(peso)
     let alturaNum = parseFloat(altura)
@@ -27,6 +32,10 @@ export const clasificar = (resultado) => {
             return 'Error';
     }
 }
+
+/*Las funciones 'validarAltura' y 'validarPeso' se encargan de reemplazar 
+las comas por puntos, en caso de que el usuario introduzca los datos de esa manera,
+para asegurar el cálculo correcto.*/
 
 export const validarAltura = (cifra) => {
     let num = 0;

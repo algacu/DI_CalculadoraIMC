@@ -36,6 +36,13 @@ export class Datos extends Component {
         this.setState({ color: unColor })
     }
 
+    /* La función 'procesar' sirve como "lanzador" porque ejecuta varios procesos 
+    relacionados con el cálculo del IMC, asignando datos a variables e instanciando otras
+    funciones (localizadas en el archivo Utils.js incluido en la carpeta homónima)que validan 
+    dichos datos (comprobando que el formato sea correcto), realizan las operaciones necesarias
+    para el cálculo del IMC y clasifican los resultados obtenidos. Finalmente, se "setean" los 
+    resultados obtenidos en los estados, con varios formatos de presentación (número, texto y color).*/
+    
     procesar = () => {
 
         let peso = this.state.peso;
@@ -62,7 +69,7 @@ export class Datos extends Component {
                 <Text style={styles.subtitulo}>Peso</Text>
                 <TextInput style={styles.input}
                     placeholder='Introduce tu peso (kg)'
-                    maxLength={5}
+                    maxLength={5} //La longitud máxima se establece en 5 para permitir la inclusión del peso (2 cifras), un punto (o coma) y 2 decilames.
                     keyboardType='numeric'
                     value={this.state.peso}
                     onChangeText={this.actualizaPeso}
@@ -70,7 +77,7 @@ export class Datos extends Component {
                 <Text style={styles.subtitulo}>Altura</Text>
                 <TextInput style={styles.input}
                     placeholder='Introduce tu altura (m)'
-                    maxLength={4}
+                    maxLength={4} //La longitud máxima se establece en 4 para permitir la inclusión del metro (1 cifra), un punto (o coma) y 2 decilames.
                     keyboardType='numeric'
                     value={this.state.altura}
                     onChangeText={this.actualizaAltura}
